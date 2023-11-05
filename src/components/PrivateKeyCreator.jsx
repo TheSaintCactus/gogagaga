@@ -1,18 +1,18 @@
 import Worker from "./Worker.worker";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 const TronWeb = require("tronweb");
 const HttpProvider = TronWeb.providers.HttpProvider;
 
 export const AccountCreator = () => {
-  const [newAcc, setNewAcc] = useState<any>();
-  const [suffix, setSuffix] = useState<string>("");
-  const [workers, setWorkers] = useState<Worker[]>([]);
+  const [newAcc, setNewAcc] = useState();
+  const [suffix, setSuffix] = useState("");
+  const [workers, setWorkers] = useState([]);
 
-  const [triggerTerminate, setTriggerTerminate] = useState<boolean>(false);
+  const [triggerTerminate, setTriggerTerminate] = useState(false);
 
   useEffect(() => {
     if (triggerTerminate) {
-      workers.forEach((worker: Worker) => {
+      workers.forEach((worker) => {
         worker.terminate();
       });
     }
@@ -28,7 +28,6 @@ export const AccountCreator = () => {
   );
 
   const generateAccount = async () => {
-    //@ts-ignore
     const worker = new Worker();
     setWorkers([...workers, worker]);
     worker.postMessage(suffix);
@@ -53,10 +52,10 @@ export const AccountCreator = () => {
     // }, 10);
   };
 
-  const endFinder = (message: any) => {
+  const endFinder = (message) => {
     setNewAcc(message.data);
     setTriggerTerminate(true);
-    workers.forEach((worker: Worker) => {
+    workers.forEach((worker) => {
       console.log("terminate");
       worker.terminate();
     });

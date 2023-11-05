@@ -1,5 +1,4 @@
 // worker.js
-//@ts-ignore
 import TronWeb from "tronweb";
 const HttpProvider = TronWeb.providers.HttpProvider;
 console.log("worker started");
@@ -39,7 +38,3 @@ self.onmessage = function (e) {
   };
   generateAccount();
 };
-//eslint-disable-next-line
-const item = self as unknown as Worker;
-
-export default item;
